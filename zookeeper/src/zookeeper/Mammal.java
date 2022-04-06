@@ -1,7 +1,7 @@
 package zookeeper;
 
 public class Mammal {
-	private Integer energyLevel = 100;
+	protected Integer energyLevel = 100;
 	
 	public Integer displayEnergy() {
 		return energyLevel;
