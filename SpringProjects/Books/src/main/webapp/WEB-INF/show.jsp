@@ -7,10 +7,12 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>One book</title>
 </head>
 <body>
-	<h1>Testing</h1>
-	<p>${booktest.title}</p>
+	<h1>${booktest.title}</h1>
+	<p>Description: ${booktest.description}</p>
+	<p>Language: ${booktest.language}</p>
+	<p>Number of pages: ${booktest.numberOfPages}</p>	
 </body>
 </html>
