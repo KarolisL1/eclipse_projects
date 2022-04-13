@@ -1,5 +1,7 @@
 package com.codingdojo.books.controllers;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -29,4 +31,11 @@ public class BookController {
 		
 		return "show";
 	}
+	
+    @RequestMapping("/books")
+    public String index(Model model) {
+        List<Book> books = bookService.allBooks();
+        model.addAttribute("books", books);
+        return "/books/index";
+    }
 }
