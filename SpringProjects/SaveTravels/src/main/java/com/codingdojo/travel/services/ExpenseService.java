@@ -1,6 +1,7 @@
 package com.codingdojo.travel.services;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
@@ -29,7 +30,12 @@ public class ExpenseService {
 		expenseRepository.deleteById(Id);
 	}
 	
-	public Expense updateExpense(Expense e) {
-		return expenseRepository.save(e);
+	public void updateExpense(Expense e) {
+			createExpense(e);
+	}
+	
+	public Expense ReadOne(Long id) {
+		Optional<Expense> expense=expenseRepository.findById(id);
+		return expense.isPresent()?expense.get():null;
 	}
 }

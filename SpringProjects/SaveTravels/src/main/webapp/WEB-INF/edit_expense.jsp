@@ -2,7 +2,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
-<%@ page isErrorPage="true" %>
+<%@ page isErrorPage="true" %>   
 <!DOCTYPE html>
 <html>
 <head>
@@ -13,30 +13,9 @@
 	<script type="text/javascript" src="js/main.js"></script>
 </head>
 <body>
-	<table>
-    <thead>
-        <tr>
-            <th>Expense</th>
-            <th>Vendor</th>
-            <th>Amount</th>
-            <th>Actions</th>
-        </tr>
-    </thead>
-    <tbody>
-         <!-- loop over all the books to show the details as in the wireframe! -->
-         <c:forEach var="oneExpense" items="${expenses}">
-			<tr>
-    			<td><a href="/expenses/${oneExpense.id}"><c:out value="${oneExpense.expense_name}"></c:out></a></td>
-    			<td><c:out value="${oneExpense.vendor}"></c:out></td>
-    			<td><c:out value="${oneExpense.amount}"></c:out></td>
-    			<td><a href="/expenses/${oneExpense.id}/edit">edit</a></td>
-    			<td><a href="/expenses/${oneExpense.id}/delete">delete</a></td>
-    		</tr>
-    	</c:forEach>
-    </tbody>
-	</table>
-	<h1>Add an expense:</h1>
-	<form:form action="/expenses" method="post" modelAttribute="expense">
+	<h1>Edit an expense</h1>
+	<p>${expense.id}</p>
+	<form:form action="/expenses/{expense.id}/update" method="POST" modelAttribute="expense">
 	    <p>
 	        <form:label path="expense_name">Expense Name:</form:label>
 	        <form:errors path="expense_name"/>
