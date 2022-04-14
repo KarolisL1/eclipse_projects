@@ -28,13 +28,21 @@ public class TravelController {
 	}
 	
     @PostMapping("/expenses")
-    public String create(@Valid @ModelAttribute("expense") Expense expense, BindingResult result) {
-        if (result.hasErrors()) {
+    public String create(@ModelAttribute("expense") Expense expense, Model model, BindingResult result) {
+        System.out.println("CREATE EXPENSE");
+    	if (result.hasErrors()) {
+            List<Expense> expenses = expenseService.allExpenses();
+            model.addAttribute("expenses", expenses);
+        	System.out.println("Im here");
             return "index";
         } else {
             expenseService.createExpense(expense);
             return "redirect:/expenses";
         }
+//        System.out.println(expense.getExpense_name());   
+//        System.out.println(expense.getVendor());
+//        System.out.println(expense.getAmount());
+//        System.out.println(expense.getDescription());
     }
     
     @RequestMapping("/expenses/{expenseId}")
@@ -52,10 +60,11 @@ public class TravelController {
     }
     
     @PostMapping(value="/expenses/{expenseId}/update")
-    public String expense_update(@Valid @ModelAttribute("expense") Expense expense, BindingResult result) {
+    public String expense_update(@Valid @ModelAttribute("expense") Expense expense, @PathVariable("expenseId") Long id, BindingResult result) {
         if (result.hasErrors()) {
             return "edit_expense";
         } else {
+        	expense.setId(id);
             expenseService.updateExpense(expense);
             return "redirect:/expenses";
         }

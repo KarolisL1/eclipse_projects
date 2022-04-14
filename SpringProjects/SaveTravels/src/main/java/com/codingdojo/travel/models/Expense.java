@@ -22,20 +22,20 @@ public class Expense {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     
-    @NotNull
-    @Size(min = 5, max = 200)
+//    @NotNull
+//    @Size(min = 5, max = 200,message="name 5-200 characters!")
     private String expense_name;
     
-    @NotNull
-    @Size(min = 5, max = 200)
+//    @NotNull
+    //@Size(min = 5, max = 200,message="vendor 5-200 characters!")
     private String vendor;
     
-    @NotNull
+//    @NotNull
 //    @Size(min = 3, max = 40)
     private Integer amount;
     
-    @NotNull
-    @Size(min = 5, max = 200)
+//    @NotNull
+    //@Size(min = 5, max = 200,message="Description 5-200 characters!")
     private String description;
     
     @Column(updatable=false)

@@ -15,7 +15,7 @@
 <body>
 	<h1>Edit an expense</h1>
 	<p>${expense.id}</p>
-	<form:form action="/expenses/{expense.id}/update" method="POST" modelAttribute="expense">
+	<form:form action="/expenses/${expense.id}/update" method="POST" modelAttribute="expense">
 	    <p>
 	        <form:label path="expense_name">Expense Name:</form:label>
 	        <form:errors path="expense_name"/>
