@@ -6,9 +6,14 @@
 <table>
 	<h1>${booktest.title}</h1>
 	<p><a href="/books">back to the shelves</a></p>
-<%-- 	<c:if test="${booktest.user.id == user_id}"> --%>
-	<p>${booktest.user.name} read ${booktest.title} by ${booktest.author_name}.</p>
-	<p>Here are ${booktest.user.name}'s thoughts:</p>
+ 	<c:if test="${booktest.user.id == user_id}">
+ 		<p>You read ${booktest.title} by ${booktest.author_name}.</p>
+ 		<p>Here are your thoughts:</p>
+ 	</c:if>
+ 	<c:if test="${booktest.user.id != user_id}">
+		<p>${booktest.user.name} read ${booktest.title} by ${booktest.author_name}.</p>
+		<p>Here are ${booktest.user.name}'s thoughts:</p>
+	</c:if>
 	<hr>
 	<p>${booktest.thoughts}</p>
 	<hr>

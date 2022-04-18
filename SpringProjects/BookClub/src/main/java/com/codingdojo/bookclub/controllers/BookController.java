@@ -15,25 +15,30 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.codingdojo.bookclub.models.Book;
 import com.codingdojo.bookclub.services.BookService;
+import com.codingdojo.bookclub.services.UserService;
 
 @Controller
 public class BookController {
 	
 	@Autowired
 	private BookService bookService;
+	private UserService userService;
 	
-	public BookController(BookService bookService) {
+	public BookController(BookService bookService, UserService userService) {
 		this.bookService = bookService;
+		this.userService = userService;
 	}
 	
 	@GetMapping("/books")
-	public String allBooks(Model model) {
+	public String allBooks(Model model, HttpSession session) {
+		if(!userService.isLoggedIn(session)) return "redirect:/";
 		model.addAttribute("book", bookService.allBooks());
 		return "books";
 	}
 	
 	@GetMapping("/books/new")
 	public String create(@ModelAttribute("book") Book book, HttpSession session, Model model) {
+		if(!userService.isLoggedIn(session)) return "redirect:/";
 		model.addAttribute("user_id", session.getAttribute("user_id"));
 		return "new_book";
 	}
@@ -50,7 +55,7 @@ public class BookController {
 	
 	@RequestMapping("/books/{bookId}")
 	public String index(Model model, @PathVariable("bookId") Long bookId, HttpSession session) {
-		
+		if(!userService.isLoggedIn(session)) return "redirect:/";
 		Book book = bookService.findBook(bookId);
 		
 		model.addAttribute("booktest", book);
@@ -61,10 +66,12 @@ public class BookController {
 	@RequestMapping("/books/{bookId}/edit")
 	public String editBook(
 			@PathVariable("bookId") Long bookId,
-			Model model
+			Model model,
+			HttpSession session
 			) {
 		
 //		bookService.updateBook(bookId);
+		if(!userService.isLoggedIn(session)) return "redirect:/";
 		model.addAttribute("booktest", bookService.findBook(bookId));
 //		model.addAttribute("user_id", session.getAttribute("user_id"));
 		return "editBook";
@@ -72,12 +79,16 @@ public class BookController {
 	
 	@PostMapping("/books/{bookId}/update")
 	public String updateBook(
-			@Valid @ModelAttribute("book") Book book,
+			@Valid @ModelAttribute("booktest") Book book,
 			BindingResult result,
-			@PathVariable("bookId") Long id
+			@PathVariable("bookId") Long id,
+			Model model
 			)
 	{
-//		if (result.hasErrors()) return "editBook";
+		if (result.hasErrors()) {
+//			model.addAttribute("booktest", bookService.findBook(id));
+			return "editBook";
+		}
 		book.setId(id);
 		bookService.updateBook2(book);
 		return "redirect:/books";
