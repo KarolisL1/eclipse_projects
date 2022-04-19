@@ -63,7 +63,7 @@ public class MainController {
 	}
 	
 	@PostMapping("/products/{productId}/withCategory")
-	public String create2(
+	public String pwithcategory(
 			Model model,
 			@PathVariable("productId") Long productId,
 			@RequestParam("category_id") Long categoryId
@@ -76,6 +76,31 @@ public class MainController {
 		productService.createProduct(product);
 //		LocalTime myObj = LocalTime.now();
 //		model.addAttribute("time", myObj);
+		return "redirect:/";
+	}
+	
+	@RequestMapping("/categories/{categoryId}")
+	public String oneCategory(
+			Model model,
+			@PathVariable("categoryId") Long categoryId
+	) 
+	{
+		Category category = categoryService.findCategory(categoryId);
+		
+		model.addAttribute("category", category);
+		model.addAttribute("Products", productService.allProducts());
+//		model.addAttribute("categoriesIN", categoryService.allByProducts(product));
+//		model.addAttribute("categoriesOut", categoryService.allNotContains(product));
+		return "one_category";
+	}
+	
+	@PostMapping("/categories/{categoryId}/withProduct")
+	public String cwithproduct(Model model, @PathVariable("categoryId") Long categoryId, @RequestParam("product_id") Long productId ) {
+		Product product = productService.findProduct(productId);
+		Category category = categoryService.findCategory(categoryId);
+		List<Product> productList = category.getProducts();
+		productList.add(product);
+		categoryService.createCategory(category);
 		return "redirect:/";
 	}
 	
